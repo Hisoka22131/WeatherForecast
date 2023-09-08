@@ -3,20 +3,31 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {NgxMapLibreGLModule} from '@maplibre/ngx-maplibre-gl';
 import {GeolocationComponent} from './geolocation/geolocation/geolocation.component';
+import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import {NavbarComponent} from './navbar/navbar.component';
+import {HttpClientModule} from "@angular/common/http";
+import {MapService} from "./services/map.service";
+import {FormsModule} from "@angular/forms";
+import {NotificationService} from "./services/notification.service";
 
 @NgModule({
   declarations: [
     AppComponent,
-    GeolocationComponent
+    GeolocationComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgxMapLibreGLModule
+    BsDropdownModule.forRoot(),
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    MapService,
+    NotificationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

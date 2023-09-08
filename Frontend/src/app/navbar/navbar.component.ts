@@ -1,0 +1,20 @@
+import {Component} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+
+@Component({
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
+})
+export class NavbarComponent {
+
+  city: string = "";
+
+  constructor(private http: HttpClient) {
+
+  }
+
+  sendCity(){
+    // this.http.get()
+  }
+}

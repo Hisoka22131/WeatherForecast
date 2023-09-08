@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-
-declare const L: any;
+import {MapService} from "../../services/map.service";
+import {NotificationService} from "../../services/notification.service";
 
 @Component({
   selector: 'app-geolocation',
@@ -8,6 +8,14 @@ declare const L: any;
   styleUrls: ['./geolocation.component.css']
 })
 export class GeolocationComponent implements OnInit {
+
+  latitude: number = 46.8642115;
+  longitude: number = 45.6150736;
+
+  constructor(private mapService: MapService,
+              private notificationService: NotificationService) {
+  }
+
   ngOnInit(): void {
 
     if (!navigator.geolocation)
@@ -18,58 +26,18 @@ export class GeolocationComponent implements OnInit {
       const coords = position.coords;
       const latLong = [coords.latitude, coords.longitude];
 
-      this.createMap(latLong);
+      this.mapService.createMap(latLong);
 
     });
 
-    this.watchPosition();
+    this.mapService.watchPosition();
   }
 
-  watchPosition() {
-    let desLat = 0;
-    let desLon = 0;
-
-    let id = navigator.geolocation.watchPosition(position => {
-
-      if (position.coords.latitude === desLat)
-        navigator.geolocation.clearWatch(id);
-
-    }, (error => console.log(error)), {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
-    });
-  }
-
-  createMap(latLong: number[]) {
-    let map = L.map('map').setView(latLong, 10);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-
-    let marker = L.marker(latLong).addTo(map);
-
-    marker.bindPopup('<br>Ваше местоположение</br>').openPopup();
-
-    L.popup()
-      .setLatLng(latLong)
-      .setContent("Ваше местоположение")
-      .openOn(map);
+  findLocation() {
+    this.mapService.updateMap([this.latitude, this.longitude]);
   }
 
   getNotification() {
-    Notification.requestPermission()
-      .then(function () {
-
-        new Notification('Ошибка', {
-          body: 'Не найдено местоположение',
-          icon: 'путь_к_иконке.png'
-        });
-
-      })
-      .catch(function (error) {
-        console.error('Ошибка при запросе разрешения на уведомления:', error);
-      });
+    this.notificationService.getNotification();
   }
 }
