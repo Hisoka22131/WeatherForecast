@@ -5,17 +5,16 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {GeolocationComponent} from './geolocation/geolocation/geolocation.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
-import {NavbarComponent} from './navbar/navbar.component';
 import {HttpClientModule} from "@angular/common/http";
 import {MapService} from "./services/map.service";
 import {FormsModule} from "@angular/forms";
 import {NotificationService} from "./services/notification.service";
+import {WeatherService} from "./services/weather.service";
 
 @NgModule({
   declarations: [
     AppComponent,
-    GeolocationComponent,
-    NavbarComponent
+    GeolocationComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +25,8 @@ import {NotificationService} from "./services/notification.service";
   ],
   providers: [
     MapService,
-    NotificationService
+    NotificationService,
+    WeatherService
   ],
   bootstrap: [AppComponent]
 })

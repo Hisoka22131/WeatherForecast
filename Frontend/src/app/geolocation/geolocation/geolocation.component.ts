@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MapService} from "../../services/map.service";
 import {NotificationService} from "../../services/notification.service";
+import {WeatherService} from "../../services/weather.service";
 
 @Component({
   selector: 'app-geolocation',
@@ -9,12 +10,16 @@ import {NotificationService} from "../../services/notification.service";
 })
 export class GeolocationComponent implements OnInit {
 
-  latitude: number = 46.8642115;
-  longitude: number = 45.6150736;
-
   constructor(private mapService: MapService,
+              private weatherService: WeatherService,
               private notificationService: NotificationService) {
+
   }
+
+  latitude: number = this.mapService.getCoords()[0];
+  longitude: number = this.mapService.getCoords()[1];
+  city: string = "";
+  weatherForecast: any;
 
   ngOnInit(): void {
 
@@ -39,5 +44,18 @@ export class GeolocationComponent implements OnInit {
 
   getNotification() {
     this.notificationService.getNotification();
+  }
+
+  sendCity() {
+    this.weatherService.getWeatherForCity(this.city)
+      .subscribe(response => {
+        this.weatherForecast = response;
+        this.mapService.updateMap([Number(response.location.lat), Number(response.location.lon)]);
+        this.mapService.setLat(Number(response.location.lat));
+        this.mapService.setLon(Number(response.location.lon));
+        this.latitude = this.mapService.getCoords()[0];
+        this.longitude = this.mapService.getCoords()[1];
+      });
+    ;
   }
 }

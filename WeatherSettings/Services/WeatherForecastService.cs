@@ -21,18 +21,18 @@ public class WeatherForecastService
     /// </summary>
     private static string _cityApiUrl = "http://ip-api.com/json/";
 
-    public static async Task<string> GetWeatherForecast(string location)
+    public static async Task<WeatherResponse> GetWeatherForecast(string location)
     {
         using var client = new HttpClient();
         var response = await client.GetAsync(await GetUrl(location));
         
-        if (!response.IsSuccessStatusCode) return "Город не найден";
+        if (!response.IsSuccessStatusCode) throw new ArgumentException("Город не найден");
 
         var jsonApi = await response.Content.ReadAsStringAsync();
         
         var weatherResponse = JsonSerializer.Deserialize<WeatherResponse>(jsonApi);
         
-        return weatherResponse.current.temperature.ToString();
+        return weatherResponse;
     }
 
     /// <summary>

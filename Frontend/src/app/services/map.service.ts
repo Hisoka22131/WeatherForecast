@@ -8,12 +8,26 @@ declare const L: any;
 export class MapService {
 
   map: any;
+  latitude: number = 46.84;
+  longitude: number = 29.643;
 
   constructor() {
   }
 
+  getCoords(){
+    return [this.latitude, this.longitude]
+  }
+
+  setLat(lat: number){
+    this.latitude = lat;
+  }
+
+  setLon(lon: number){
+    this.longitude = lon;
+  }
+
   createMap(latLong: number[]) {
-    let map = L.map('map').setView(latLong, 10);
+    let map = L.map('map').setView(this.getCoords(), 10);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -48,6 +62,9 @@ export class MapService {
   }
 
   updateMap(latLong: number[]) {
+
+    this.setLat(latLong[0]);
+    this.setLon(latLong[1]);
 
     this.map.setView(new L.LatLng(latLong[0], latLong[1]), 10);
 
