@@ -1,0 +1,14 @@
+<app-navbar></app-navbar>
+<app-weather [weather]="weather"></app-weather>
+<div class="row" style="margin-top: 190px">
+  <div class="col-3">
+    <input type="text" class="form-control mb-2" placeholder="Поиск" [(ngModel)]="city" name="city">
+    <button class="btn btn-outline-secondary" type="button" style="margin-left: 10px" (click)="sendCity()">
+      <i class="fa fa-search"></i>
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div id="map"></div>
+</div>
+

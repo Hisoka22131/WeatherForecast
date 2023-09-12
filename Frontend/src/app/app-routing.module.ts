@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {GeolocationComponent} from "./geolocation/geolocation/geolocation.component";
+import {GeolocationComponent} from './components/geolocation/geolocation.component';
 
 const routes: Routes = [
   {path: '', component: GeolocationComponent},

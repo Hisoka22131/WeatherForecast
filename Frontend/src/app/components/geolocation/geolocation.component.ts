@@ -16,10 +16,8 @@ export class GeolocationComponent implements OnInit {
 
   }
 
-  latitude: number = this.mapService.getCoords()[0];
-  longitude: number = this.mapService.getCoords()[1];
   city: string = "";
-  weatherForecast: any;
+  weather: any;
 
   ngOnInit(): void {
 
@@ -31,15 +29,14 @@ export class GeolocationComponent implements OnInit {
       const coords = position.coords;
       const latLong = [coords.latitude, coords.longitude];
 
+      this.weatherService.getWeatherForLatLong(latLong)
+        .subscribe(response => this.weather = response);
+
       this.mapService.createMap(latLong);
 
     });
 
     this.mapService.watchPosition();
-  }
-
-  findLocation() {
-    this.mapService.updateMap([this.latitude, this.longitude]);
   }
 
   getNotification() {
@@ -49,13 +46,8 @@ export class GeolocationComponent implements OnInit {
   sendCity() {
     this.weatherService.getWeatherForCity(this.city)
       .subscribe(response => {
-        this.weatherForecast = response;
-        this.mapService.updateMap([Number(response.location.lat), Number(response.location.lon)]);
-        this.mapService.setLat(Number(response.location.lat));
-        this.mapService.setLon(Number(response.location.lon));
-        this.latitude = this.mapService.getCoords()[0];
-        this.longitude = this.mapService.getCoords()[1];
+        this.weather = response;
+        this.mapService.updateMap([Number(response.coord.lat), Number(response.coord.lon)]);
       });
-    ;
   }
 }
