@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using WeatherSettings.Model.WeatherModels;
 using WeatherSettings.Model.WeatherModels.WeatherListModels;
 using WeatherSettings.Model.WeatherModels.WeatherSingleModels;
 
@@ -6,59 +7,27 @@ namespace WeatherSettings.Services;
 
 public class WeatherForecastService
 {
-    public static async Task<WeatherListResponse> GetWeatherForecastWeek(string location)
+    private static async Task<T> GetWeatherData<T>(string url)
     {
         using var client = new HttpClient();
-        var response = await client.GetAsync(OpenWeatherMapApi.GetWeek(location));
-        
+        var response = await client.GetAsync(url);
+
         if (!response.IsSuccessStatusCode) throw new ArgumentException("Город не найден");
 
         var jsonApi = await response.Content.ReadAsStringAsync();
-        
-        var weatherListResponse = JsonSerializer.Deserialize<WeatherListResponse>(jsonApi);
-        
-        return weatherListResponse;
-    }
-    
-    public static async Task<WeatherListResponse> GetWeatherForecastWeek(OpenWeatherMapApi.LatLong latLong)
-    {
-        using var client = new HttpClient();
-        var response = await client.GetAsync(OpenWeatherMapApi.GetWeek(latLong));
-        
-        if (!response.IsSuccessStatusCode) throw new ArgumentException("Город не найден");
 
-        var jsonApi = await response.Content.ReadAsStringAsync();
-        
-        var weatherListResponse = JsonSerializer.Deserialize<WeatherListResponse>(jsonApi);
-        
-        return weatherListResponse;
+        return JsonSerializer.Deserialize<T>(jsonApi);
     }
-    
-    public static async Task<WeatherResponse> GetWeatherForecast(string location)
-    {
-        using var client = new HttpClient();
-        var response = await client.GetAsync(OpenWeatherMapApi.GetUrl(location));
-        
-        if (!response.IsSuccessStatusCode) throw new ArgumentException("Город не найден");
 
-        var jsonApi = await response.Content.ReadAsStringAsync();
-        
-        var weatherResponse = JsonSerializer.Deserialize<WeatherResponse>(jsonApi);
-        
-        return weatherResponse;
-    }
-    
-    public static async Task<WeatherResponse> GetWeatherForecast(OpenWeatherMapApi.LatLong latLong)
-    {
-        using var client = new HttpClient();
-        var response = await client.GetAsync(OpenWeatherMapApi.GetUrl(latLong));
-        
-        if (!response.IsSuccessStatusCode) throw new ArgumentException("Город не найден");
+    public static async Task<WeatherListResponse> GetWeatherForecastWeek(string location) =>
+        await GetWeatherData<WeatherListResponse>(OpenWeatherMapApi.GetWeek(location));
 
-        var jsonApi = await response.Content.ReadAsStringAsync();
-        
-        var weatherResponse = JsonSerializer.Deserialize<WeatherResponse>(jsonApi);
-        
-        return weatherResponse;
-    }
+    public static async Task<WeatherListResponse> GetWeatherForecastWeek(LatLong latLong) =>
+        await GetWeatherData<WeatherListResponse>(OpenWeatherMapApi.GetWeek(latLong));
+
+    public static async Task<WeatherResponse> GetWeatherForecast(string location) =>
+        await GetWeatherData<WeatherResponse>(OpenWeatherMapApi.GetUrl(location));
+
+    public static async Task<WeatherResponse> GetWeatherForecast(LatLong latLong) =>
+        await GetWeatherData<WeatherResponse>(OpenWeatherMapApi.GetUrl(latLong));
 }

@@ -1,4 +1,6 @@
-﻿namespace WeatherSettings;
+﻿using WeatherSettings.Model.WeatherModels;
+
+namespace WeatherSettings;
 
 public static class OpenWeatherMapApi
 {
@@ -15,11 +17,4 @@ public static class OpenWeatherMapApi
     
     public static string GetWeek(LatLong latLong) =>
         $"https://api.openweathermap.org/data/2.5/forecast?lat={latLong.Latitude}&lon={latLong.longitude}&cnt=7&units=metric&lang=ru&APPID={ApiKey}";
-
-    public class LatLong
-    {
-        public decimal Latitude { get; set; }
-
-        public decimal longitude { get; set; }
-    }
 }

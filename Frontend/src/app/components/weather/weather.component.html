@@ -1,25 +1,24 @@
 <mat-card class="mat-elevation-z5" style="border-radius: 10px" *ngIf="weather">
   <mat-card-header>
-    <mat-card-title>{{weather.name}}'s weather</mat-card-title>
-    <mat-card-subtitle>Today: {{currentDate | date }}</mat-card-subtitle>
+    <mat-card-title>Погода в г.{{weather.name}}</mat-card-title>
+    <mat-card-subtitle>Дата: {{currentDate | date }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="flex-row">
       <div class="temp">
-        <span class="big-text">{{weather.main.temp | number:'0.0-0'}} C</span>
-        <span>Feels like </span>
-        <span>{{weather.main.feels_like | number: '0.0-0'}} C</span>
+        <span class="big-text mb-2">{{weather.main.temp | number:'0.0-0'}} °C</span>
+        <span>Чувствуется:</span>
+        <span>{{weather.main.feels_like | number: '0.0-0'}} °C</span>
       </div>
       <div class="outlook">
         <div class="outlook">
-          <img [src]="weather.image" class="image" />
+          <img [src]="weather.image" class="image"/>
           <span>{{weather.weather[0].description | titlecase}}</span>
         </div>
       </div>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
+    <a mat-button [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" routerLink="/detail">Подробнее</a>
   </mat-card-actions>
 </mat-card>

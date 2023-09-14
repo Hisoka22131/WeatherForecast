@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using WeatherSettings;
+using WeatherSettings.Model.WeatherModels;
 using WeatherSettings.Model.WeatherModels.WeatherListModels;
 using WeatherSettings.Model.WeatherModels.WeatherSingleModels;
 using WeatherSettings.Services;
@@ -24,7 +24,7 @@ public class WeatherForecastController : ControllerBase
     
     [HttpPost]
     [Route("get-weather-forecast-latLong")]
-    public async Task<WeatherResponse> GetLatLongToday(OpenWeatherMapApi.LatLong latLong) => await WeatherForecastService.GetWeatherForecast(latLong);
+    public async Task<WeatherResponse> GetLatLongToday(LatLong latLong) => await WeatherForecastService.GetWeatherForecast(latLong);
     
     [HttpGet]
     [Route("get-weather-forecast-week/{location}")]
@@ -32,5 +32,5 @@ public class WeatherForecastController : ControllerBase
     
     [HttpPost]
     [Route("get-weather-forecast-latLong-week")]
-    public async Task<WeatherListResponse> GetLatLongWeek(OpenWeatherMapApi.LatLong latLong) => await WeatherForecastService.GetWeatherForecastWeek(latLong);
+    public async Task<WeatherListResponse> GetLatLongWeek(LatLong latLong) => await WeatherForecastService.GetWeatherForecastWeek(latLong);
 }

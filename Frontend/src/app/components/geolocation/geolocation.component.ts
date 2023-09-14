@@ -13,14 +13,16 @@ export class GeolocationComponent implements OnInit {
   constructor(private mapService: MapService,
               private weatherService: WeatherService,
               private notificationService: NotificationService) {
-
   }
 
   city: string = "";
   weather: any;
 
   ngOnInit(): void {
+    this.start()
+  }
 
+  start() {
     if (!navigator.geolocation)
       this.getNotification();
 

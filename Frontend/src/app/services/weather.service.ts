@@ -23,6 +23,31 @@ export class WeatherService {
     );
   }
 
+  getWeatherListForCity(city: string){
+    return this.http.get<any>(this.baseApiUrl + "/weatherForecast/get-weather-forecast-week/" + city).pipe(
+      map(data => ({
+        ...data,
+        // image: `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+      })),
+    );
+  }
+
+  getWeatherListForLatLong(latLon: number[]) {
+
+    const coord  = {
+      latitude: latLon[0],
+      longitude: latLon[1]
+    };
+
+    return this.http.post<any>(this.baseApiUrl + "/weatherForecast/get-weather-forecast-latLong-week", coord)
+      .pipe(
+        map(data => ({
+          ...data,
+          // image: `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+        })),
+      );
+  }
+
   getWeatherForLatLong(latLon: number[]) {
 
     const coord  = {

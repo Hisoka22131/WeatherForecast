@@ -15,13 +15,15 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import { WeatherComponent } from './components/weather/weather.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { WeatherDetailComponent } from './components/weather-detail/weather-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GeolocationComponent,
     WeatherComponent,
-    NavbarComponent
+    NavbarComponent,
+    WeatherDetailComponent
   ],
   imports: [
     BrowserModule,

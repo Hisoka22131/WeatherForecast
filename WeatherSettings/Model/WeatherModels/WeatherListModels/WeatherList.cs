@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using WeatherSettings.Model.WeatherModels.WeatherSingleModels;
 
 namespace WeatherSettings.Model.WeatherModels.WeatherListModels;
